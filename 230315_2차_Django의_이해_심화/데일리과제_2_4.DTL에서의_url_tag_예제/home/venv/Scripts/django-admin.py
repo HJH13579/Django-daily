@@ -1,0 +1,21 @@
+#!C:\Users\SSAFY\Desktop\Django_daily\230315_2차_Django의_이해_심화\데일리과제_2_4.DTL에서의_url_tag_예제\home\venv\Scripts\python.exe
+# When the django-admin.py deprecation ends, remove this script.
+import warnings
+
+from django.core import management
+
+try:
+    from django.utils.deprecation import RemovedInDjango40Warning
+except ImportError:
+    raise ImportError(
+        'django-admin.py was deprecated in Django 3.1 and removed in Django '
+        '4.0. Please manually remove this script from your virtual environment '
+        'and use django-admin instead.'
+    )
+
+if __name__ == "__main__":
+    warnings.warn(
+        'django-admin.py is deprecated in favor of django-admin.',
+        RemovedInDjango40Warning,
+    )
+    management.execute_from_command_line()

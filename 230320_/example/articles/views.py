@@ -12,28 +12,50 @@ def detail(request, pk):
     context = {'article': article}
     return render(request, 'articles/detail.html', context)
 
-def new(request):
-    return render(request, 'articles/new.html')
+# def new(request):
+#     return render(request, 'articles/new.html')
+
+# def create(request):
+#     # title = request.GET.get('title')
+#     # content = request.GET.get('content')
+#     title = request.POST.get('title')
+#     content = request.POST.get('content')
+
+#     # DB에 새로운 Article 저장
+#     # Article.objects.create(
+#     #     title=title,
+#     #     content=content
+#     # )
+
+#     article = Article(title=title, content=content)
+#     # ~~~~~~
+#     article.save()
+
+#     return redirect('articles:index')
 
 def create(request):
-    # title = request.GET.get('title')
-    # content = request.GET.get('content')
-    title = request.POST.get('title')
-    content = request.POST.get('content')
-
-    # DB에 새로운 Article 저장
-    # Article.objects.create(
-    #     title=title,
-    #     content=content
-    # )
-
-    article = Article(title=title, content=content)
-    # ~~~~~~
-    article.save()
-
-    return redirect('articles:index')
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        article = Article(title = title, content = content)
+        article.save()
+        return redirect('article:detail', pk=article.pk)
+    else:
+        return render(request, 'articles/create.html')
 
 def delete(request, pk):
     article = Article.objects.get(pk=pk)
     article.delete()
-    return 
+    return redirect('articles:index')
+
+def edit(request, pk):
+    article = Article.objects.get(pk=pk)
+    context = {'article': article}
+    return redner(request, 'articles/edit.html', context)
+
+def update(request, pk):
+    article = Article.objects.get(pk=pk)
+    article.title = request.POST.get('title')
+    article.content = request.POST.get('content')
+    article.save()
+    return redirect('articles:detail', pk=article.pk)

@@ -7,7 +7,8 @@ hate = ["사과","구아바"]
 def fruit(request):
 
     context = {
-        
+        'fruit_list' : fruit_list,
+        'hate' : hate
     }
 
     return render(request, 'fruits/fruits.html', context)

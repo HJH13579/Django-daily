@@ -7,6 +7,20 @@
   <title>Document</title>
 </head>
 <body>
+  {% for fruit in fruit_list %}
+    {% comment %} 2번 조건 {% endcomment %}
+    {% if fruit in hate %}
+    
+    {% comment %} 3번 조건 {% endcomment %}
+    {% elif fruit|length < 2 %}
+    
+    {% comment %} 4번 조건 {% endcomment %}
+    {% else %}
+      <p>{{fruit|truncatechars:3}}</p>
+
+    {% endif %}
   
+  {% endfor %}
+
 </body>
 </html>

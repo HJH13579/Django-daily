@@ -1,11 +1,32 @@
 from django.shortcuts import render
 
+foods = ['피자', '치킨', '국밥', '초밥', '민초흑당로제마라탕']
+drinks = ['cider', 'coke', 'miranda', 'fanta', 'eye of finetree']
+
 # Create your views here.
 def food(request):
-    return render(request, 'menus/food.html')
+
+    context = {
+        'foods' : foods,
+    }
+
+    return render(request, 'menus/food.html', context)
 
 def drink(request):
-    return render(request, 'menus/drink.html')
+
+    context = {
+        'drinks' : drinks,
+    }
+
+    return render(request, 'menus/drink.html', context)
 
 def receipt(request):
-    return render(request, 'menus/receipt.html')
+    message = request.GET.get('message')
+    
+    context = {
+        'message' : message,
+        'foods' : foods,
+        'drinks' : drinks,
+    }
+
+    return render(request, 'menus/receipt.html', context)

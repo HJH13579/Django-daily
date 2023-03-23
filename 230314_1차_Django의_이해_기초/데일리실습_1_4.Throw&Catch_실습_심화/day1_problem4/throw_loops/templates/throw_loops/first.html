@@ -8,7 +8,7 @@
 </head>
 <body>
   
-  <p>catch! I catch {{message}}!</p>
+  <p>catch! I catch {{message|default:'nothing'}}!</p>
   
   <form action="{% url 'second' %}" method="GET">
 

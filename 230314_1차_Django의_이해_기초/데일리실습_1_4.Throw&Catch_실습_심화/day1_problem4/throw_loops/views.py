@@ -6,9 +6,6 @@ import random
 def first(request):
     message = request.GET.get('message')
     
-    if message == None:
-        message = 'nothing'
-
     context = {
         'message' : message
     }

@@ -2,5 +2,5 @@ from django.urls import path
 from prices import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('<thing>/<int:cnt>/',views.price),
 ]

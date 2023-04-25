@@ -27,12 +27,16 @@ def music_list(request):
 @api_view(['GET', 'DELETE', 'PUT'])
 def music_detail(request, music_pk):
     # 문제 3. 찾으려는 데이터가 없으면 404 상태 코드를 반환할 수 있도록 아래 코드를 완성하시오.
-    music = Music.objects.get(pk=music_pk)
+    try:
+        music = Music.objects.get(pk=music_pk)
+    except Music.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     if request.method == 'GET':
-        serializer = MusicReviewCntSerializer(music)
+        serializer = MusicReviewCntSerializer(music, data=request.data)
         if serializer.is_valid():
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
     # 문제 4. 음악 데이터를 삭제하고 {'delete': 삭제되는음악pk} 형태의 JSON으로 반환하도록 코드를 완성하시오.
@@ -67,8 +71,9 @@ def review_list(request):
 def review_create(request, music_pk):
     if request.method == 'POST':
         serializer = ReviewSerializer(data=request.data)
+        music = Music.objects.get(pk=music_pk)
         if serializer.is_valid():
-            serializer.save(pk=music_pk)
+            serializer.save(music=music)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 

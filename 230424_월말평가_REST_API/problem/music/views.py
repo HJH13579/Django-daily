@@ -82,15 +82,17 @@ def review_create(request, music_pk):
 def review_detail(request, review_pk):
     # 문제 9. 리뷰 정보를 조회할 수 있도록 아래 코드를 완성하시오.
     # 찾는 리뷰가 없으면 404 상태 코드를 반환합니다.
-    review = Review.objects.get(pk=review_pk)
-
-    if request.method == 'GET':
-        serializer = MusicReviewCntSerializer(review)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_200_OK)
+    try:
+        review = Review.objects.get(pk=review_pk)
+    except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    
+    if request.method == 'GET':
+        serializer = MusicReviewCntSerializer(review, data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
     # 문제 10. DELETE 로 요청오는 경우 해당 리뷰가 삭제될 수 있도록 아래에 코드를 완성하시오.
     # 삭제하려는 리뷰가 없으면 404 상태 코드를 반환합니다.
     # 삭제가 정상적으로 완료되면 {'delete': 삭제된리뷰PK} 형태인 JSON이 204 상태코드와 함께 반환됩니다.
